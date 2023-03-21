@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-
+from sklearn.metrics import mean_squared_error,r2_score
 #%% Load The data
 
 data_df=pd.read_csv("train-data.csv")
@@ -26,8 +26,6 @@ for i in arr:
     data_df[i]=data_df[i].astype(float)
 
 #%%
-print(data_df.info())
-#%%
 from sklearn.preprocessing import OneHotEncoder
 
 ohe = OneHotEncoder()
@@ -44,9 +42,6 @@ arr=['Mileage','Engine','Seats']
 for i in arr:
     mean_value = data_df.loc[data_df[i] != 0, i].mean()
     data_df[i] = data_df[i].replace('nan', mean_value)
-#%% Visualize the dataset
-data_df.info()
-#data_df['Year']=data_df['Year']%2000
 #%%
 # Select the input features (X) and target variable (y)
 X = data_df.drop('Price', axis=1)
@@ -62,7 +57,6 @@ model.fit(X_train, y_train)
 #%%Test
 y_pred = model.predict(X_test)
 #%%
-from sklearn.metrics import mean_squared_error,r2_score
 mse = mean_squared_error(y_test, y_pred)
 print("MSE: %.2f" % mse)
 r2 = r2_score(y_test, y_pred)
